@@ -1,2 +1,4 @@
 .gradle
-/ZhihuDailyPurify/build/
+ZhihuDailyPurify/build/
+.idea
+ZhihuDailyPurify - Version 10.iml

@@ -1,3 +1,0 @@
-include ':ZhihuDailyPurify'
-include ':ActionBar-PullToRefresh-development:library'
-include ':ActionBar-PullToRefresh-development:extras:actionbarcompat'
