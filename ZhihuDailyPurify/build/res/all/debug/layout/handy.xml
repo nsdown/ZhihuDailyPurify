@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-        android:src="@drawable/hand" /><!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ShowCaseViewLibrary/res/layout/handy.xml --><!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ZhihuDailyPurify/build/exploded-aar/ZhihuDailyPurify%20-%20Version%2010/ShowCaseViewLibrary/unspecified/res/layout/handy.xml -->
