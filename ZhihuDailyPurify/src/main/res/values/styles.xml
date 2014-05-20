@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+
+    </style>
+
+    <style name="Theme.ZhihuDailyPurify" parent="AppBaseTheme">
+        <item name="actionBarStyle">@style/Theme.ZhihuDailyPurify.ActionBarStyle</item>
+    </style>
+
+    <style name="Theme.ZhihuDailyPurify.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="titleTextStyle">@style/Theme.ZhihuDailyPurify.ActionBarStyle.TitleTextStyle</item>
+    </style>
+
+    <style name="Theme.ZhihuDailyPurify.ActionBarStyle.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/title_gray</item>
+    </style>
+    
+</resources>

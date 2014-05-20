@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="io.github.izzyleung.zhihudailypurify"
+        android:versionCode="15"
+        android:versionName="1.15">
+
+    <uses-sdk
+            android:minSdkVersion="8"
+            android:targetSdkVersion="19"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+            android:name=".application.ZhihuDailyPurifyApplication"
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ZhihuDailyPurify">
+
+        <activity
+                android:name=".ui.activity.MainActivity"
+                android:alwaysRetainTaskState="true"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".ui.activity.PrefsActivity"
+                android:label="@string/activity_settings">
+        </activity>
+
+        <activity
+                android:name=".ui.activity.PickDateActivity"
+                android:label="@string/activity_pick_date">
+        </activity>
+
+        <activity
+                android:name=".ui.activity.BrowseSpecificDateActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:alwaysRetainTaskState="true">
+        </activity>
+
+        <activity
+                android:name=".ui.activity.SearchActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:alwaysRetainTaskState="true">
+        </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="8c4f455d761dd549f56cc2e4ccc3951074c5498e"/>
+
+    </application>
+
+</manifest>

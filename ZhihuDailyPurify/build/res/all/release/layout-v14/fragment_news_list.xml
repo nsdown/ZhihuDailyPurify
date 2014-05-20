@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ptr_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ListView
+            android:id="@id/android:list"
+            android:divider="@null"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false"/>
+</android.support.v4.widget.SwipeRefreshLayout><!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ZhihuDailyPurify/src/main/res/layout-v14/fragment_news_list.xml -->

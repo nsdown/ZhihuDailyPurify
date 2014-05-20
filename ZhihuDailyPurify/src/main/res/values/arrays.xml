@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="apache_licensed_projects">
+        <item>ActionBar-PullToRefresh (Chris Banes)</item>
+        <item>PagerSlidingTabStrip (Andreas Stuetz)</item>
+        <item>Crouton (Benjamin Weiss)</item>
+        <item>Sticky List Headers (Emil Sjölander)</item>
+        <item>Universal Image Loader (Sergey Tarasevich)</item>
+        <item>ShowcaseView (Alex Curran)</item>
+    </string-array>
+
+    <string-array name="accelerate_servers">
+        <item>Sina App Engine</item>
+        <item>Heroku</item>
+    </string-array>
+
+    <string-array name="accelerate_server_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

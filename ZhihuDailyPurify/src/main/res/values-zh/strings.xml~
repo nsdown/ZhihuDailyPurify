@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">知乎日報·淨化</string>
+    <string name="action_settings">偏好設置</string>
+    <string name="news_preview_image">圖片預覽</string>
+    <string name="auto_refresh_summary">每次進入軟件時，是否允許軟件自動刷新？</string>
+    <string name="auto_refresh">自動刷新</string>
+    <string name="settings_settings">綜合設置</string>
+    <string name="settings_others">其他</string>
+    <string name="settings_others_about">關於</string>
+    <string name="activity_settings">偏好設置</string>
+    <string name="close">關閉</string>
+    <string name="licences_header">"--------------------------------------------
+
+知乎日報·淨化 基於下列開源項目構建：
+
+"
+    </string>
+    <string name="licenses_subheader">"所有上述開源項目均遵守阿帕奇許可證 2.0 版本。
+
+Copyright [2014] [Izzy Leung]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    </string>
+    <string name="contact_me">"若您對軟件有任何意見與建議，歡迎與我聯繫！我在知乎上的帳號是：Izzy Leung。
+    </string>
+    <string name="action_pick_date">選擇日期</string>
+    <string name="activity_pick_date">選擇日期</string>
+    <string name="using_client">使用官方客戶端打開知乎討論</string>
+    <string name="using_client_summary">若未安裝，勾選此選項將仍使用瀏覽器打開</string>
+    <string name="settings_others_help">幫助</string>
+    <string name="network_error">網絡錯誤！</string>
+    <string name="no_browser"><![CDATA[瀏覽器未安裝~ >_<]]></string>
+    <string name="not_coming"><![CDATA[此日仍未到來！>_<]]></string>
+    <string name="not_born"><![CDATA[此日知乎日報未誕生！>_<]]></string>
+    <string name="title_help">帮助</string>
+    <string name="open_using_client">使用客戶端打開討論</string>
+    <string name="zhihu_daily_today">今日之『知乎日報』|</string>
+    <string name="action_forward">前一日</string>
+    <string name="action_back">後一日</string>
+    <string name="this_is_today">这已是今日，明日的内容还没有发布！</string>
+    <string name="this_is_birthday">这已经是『知乎日报』的生日，在此之前都没有内容呢！</string>
+    <string name="using_accelerate_server">使用加速服務器</string>
+    <string name="using_accelerate_server_summary">勾選此選項後，瀏覽舊日內容速度更快！</string>
+    <string name="settings_network_settings">網路設定</string>
+    <string name="gfw_warning_dialog_title">小心撞牆</string>
+    <string name="gfw_warning_dialog_message">若君暫居大陸，由於某種你知我知的緣由，您與加速服務器的鏈接會不時被重置。若遇速度波动，请暂时取消此选项勾选。</string>
+    <string name="action_search">搜索</string>
+    <string name="search_hint">輸入關鍵詞以搜索</string>
+    <string name="no_result_found">抱歉，未找到相應結果</string>
+    <string name="searching">搜索中，請稍候…</string>
+    <string name="showcase_search_title">This is the search title</string>
+    <string name="showcase_search_message">搜索往日『知乎日报』美好记忆！</string>
+    <string name="showcase_calendar_title">This is the calendar title</string>
+    <string name="showcase_calendar_message">即便没有时光机器，也可轻松回到过去！</string>
+</resources>

@@ -1,0 +1,5 @@
+<!-- From: file:/Users/emilsjolander/Dropbox/projects/android/StickyListHeaders/library/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2" android:versionName="2.0" package="se.emilsjolander.stickylistheaders">
+
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18"/>
+
+</manifest>

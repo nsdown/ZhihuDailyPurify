@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="unspecified" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/build/exploded-aar/ZhihuDailyPurify - Version 10/ShowCaseViewLibrary/unspecified/assets" />
+    </dataSet>
+    <dataSet config="2.1.5" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/build/exploded-aar/se.emilsjolander/stickylistheaders/2.1.5/assets" />
+    </dataSet>
+    <dataSet config="1.0.1" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/build/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/assets" />
+    </dataSet>
+    <dataSet config="19.1.0" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/assets" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/src/main/assets" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ZhihuDailyPurify/src/debug/assets" />
+    </dataSet>
+
+</merger>

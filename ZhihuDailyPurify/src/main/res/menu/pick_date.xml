@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:actionbar="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/action_go_to_date"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            actionbar:showAsAction="always"
+            android:icon="@drawable/ic_action_accept"
+            android:title="@android:string/ok"/>
+
+
+</menu>

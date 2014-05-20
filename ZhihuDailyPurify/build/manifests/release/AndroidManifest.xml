@@ -1,0 +1,36 @@
+<!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ZhihuDailyPurify/src/main/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="15" android:versionName="1.15" package="io.github.izzyleung.zhihudailypurify">
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="io.github.izzyleung.zhihudailypurify.application.ZhihuDailyPurifyApplication" android:theme="@style/Theme.ZhihuDailyPurify">
+
+        <meta-data android:name="android.app.default_searchable" android:value="io.github.izzyleung.zhihudailypurify.ui.activity.ZDPSearchActivity"/>
+
+
+        <activity android:alwaysRetainTaskState="true" android:configChanges="orientation|keyboardHidden|screenSize" android:label="@string/app_name" android:name="io.github.izzyleung.zhihudailypurify.ui.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="@string/activity_settings" android:name="io.github.izzyleung.zhihudailypurify.ui.activity.PrefsActivity">
+        </activity>
+
+        <activity android:label="@string/activity_pick_date" android:name="io.github.izzyleung.zhihudailypurify.ui.activity.PickDateActivity">
+        </activity>
+
+        <activity android:alwaysRetainTaskState="true" android:configChanges="orientation|keyboardHidden|screenSize" android:name="io.github.izzyleung.zhihudailypurify.ui.activity.BrowseSpecificDateActivity">
+        </activity>
+
+        <activity android:alwaysRetainTaskState="true" android:configChanges="orientation|keyboardHidden|screenSize" android:name="io.github.izzyleung.zhihudailypurify.ui.activity.SearchActivity">
+        </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="8c4f455d761dd549f56cc2e4ccc3951074c5498e"/>
+
+    </application>
+
+</manifest>

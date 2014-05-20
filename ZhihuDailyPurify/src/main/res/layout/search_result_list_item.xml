@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical" >
+
+    <CheckedTextView
+            android:id="@+id/date"
+            android:layout_width="fill_parent"
+            android:layout_height="64.0dip"
+            android:fontFamily="sans"
+            android:gravity="center_vertical"
+            android:paddingLeft="16.0dip"
+            android:textSize="21.0sp" />
+
+</LinearLayout>

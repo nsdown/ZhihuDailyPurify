@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:actionbar="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/back"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            actionbar:showAsAction="always"
+            android:icon="@drawable/ic_action_back"
+            android:title="@string/action_back"/>
+
+    <item
+            android:id="@+id/forward"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            actionbar:showAsAction="always"
+            android:icon="@drawable/ic_action_forward"
+            android:title="@string/action_forward"/>
+
+</menu><!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ZhihuDailyPurify/src/main/res/menu/browse_date.xml -->
