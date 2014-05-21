@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ShowCaseViewLibrary/src/main/assets" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify - Version 10/ShowCaseViewLibrary/src/release/assets" />
+    </dataSet>
+
+</merger>
