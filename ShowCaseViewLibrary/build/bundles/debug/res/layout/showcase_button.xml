@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ShowcaseButton"
-    android:text="@string/ok"
-    android:id="@id/showcase_button" /><!-- From: file:/home/izzy/Dropbox/Android/Projects/ZhihuDailyPurify%20-%20Version%2010/ShowCaseViewLibrary/res/layout/showcase_button.xml -->
