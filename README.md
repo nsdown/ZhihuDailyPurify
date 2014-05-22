@@ -4,7 +4,7 @@ ZhihuDailyPurify 知乎日报·净化
 A purified version of Zhihu Daily  
 更纯净的知乎日报
 
--> ![ZhihuDailyPurify](https://raw.githubusercontent.com/izzyleung/ZhihuDailyPurify/master/ZhihuDailyPurify.png) <-
+![ ZhihuDailyPurify ]( https://raw.githubusercontent.com/izzyleung/ZhihuDailyPurify/master/ZhihuDailyPurify.png )
 
 ### Requirements - 需求
   - Java Development Kit (JDK) 7 +
