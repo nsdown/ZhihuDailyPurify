@@ -6,10 +6,10 @@ A purified version of Zhihu Daily
 
 
 ###Requirements - 需求
-  - Java Development Kit (JDK) 7+
+  - Java Development Kit (JDK) 7 +
   - Android SDK
-    - Android SDK Build-tools 19.1+
-    - Android Support Repository 5+
+    - Android SDK Build-tools 19.1 +
+    - Android Support Repository 5 +
 
 
 ###Build - 构建
