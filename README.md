@@ -1,4 +1,4 @@
-ZhihuDailyPurify 知乎日报·净化
+ZhihuDailyPurify - 知乎日报·净化
 ================
 
 A purified version of Zhihu Daily  
