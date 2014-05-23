@@ -16,5 +16,5 @@
     <style name="Theme.ZhihuDailyPurify.ActionBarStyle.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/title_gray</item>
     </style>
-    
+
 </resources>

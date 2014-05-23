@@ -52,6 +52,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
     private boolean isAutoRefresh;
     private boolean isFirstPage;
+    // Fragment is single in PortalActivity
     private boolean isSingle;
     private boolean isRefreshed = false;
     private boolean isCached = false;
@@ -217,19 +218,29 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
         @Override
         protected Void doInBackground(Void... params) {
-            beansToFile(newsList);
+            saveNewsList(newsList);
             return null;
         }
 
-        private void beansToFile(List<DailyNews> newsList) {
+        private void saveNewsList(List<DailyNews> newsList) {
             Type listType = new TypeToken<List<DailyNews>>() {
 
             }.getType();
 
             String beanListToJson = new GsonBuilder()
                     .create().toJson(newsList, listType);
-            ZhihuDailyPurifyApplication.getInstance().
-                    getDataSource().createDailyNewsList(date, beanListToJson);
+            if (isCached) {
+                ZhihuDailyPurifyApplication.getInstance().
+                        getDataSource().updateNewsList(date, beanListToJson);
+            } else {
+                ZhihuDailyPurifyApplication.getInstance().
+                        getDataSource().createDailyNewsList(date, beanListToJson);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            isCached = true;
         }
     }
 

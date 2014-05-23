@@ -56,6 +56,14 @@ public class DailyNewsDataSource {
                 + " = " + date, null);
     }
 
+    public void updateNewsList(String date, String content) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_DATE, date);
+        values.put(DBHelper.COLUMN_CONTENT, content);
+
+        database.update(DBHelper.TABLE_NAME, values, DBHelper.COLUMN_DATE + "=" + date, null);
+    }
+
     public List<DailyNews> getDailyNewsList(int id) {
         Cursor cursor = database.query(DBHelper.TABLE_NAME,
                 allColumns, DBHelper.COLUMN_ID + " = " + id, null,
