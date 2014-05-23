@@ -42,6 +42,8 @@ public final class DailyNews {
 
     @Override
     public boolean equals(Object o) {
+        if (thumbnailUrl == null) return false;
+
         if (this == o) return true;
         if (!(o instanceof DailyNews)) return false;
 

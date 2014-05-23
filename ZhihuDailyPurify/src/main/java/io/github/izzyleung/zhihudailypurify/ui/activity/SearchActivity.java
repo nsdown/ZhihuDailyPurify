@@ -159,7 +159,7 @@ public class SearchActivity extends ActionBarActivity {
             try {
                 result = Html.fromHtml(Html.fromHtml(
                         NetworkUtils.downloadStringFromUrl(
-                                URLUtils.SAE_SEARCH_URL + params[0])).toString()).toString();
+                                URLUtils.SEARCH_URL + params[0])).toString()).toString();
                 if (!TextUtils.isEmpty(result) && !isCancelled()) {
                     JSONArray resultArray = new JSONArray(result);
 

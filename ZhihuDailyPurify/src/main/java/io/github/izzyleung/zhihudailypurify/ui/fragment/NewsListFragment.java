@@ -1,5 +1,6 @@
 package io.github.izzyleung.zhihudailypurify.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,11 +10,13 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -42,6 +45,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NewsListFragment extends ListFragment implements OnRefreshListener {
@@ -77,6 +81,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        @SuppressLint("InflateParams")
         View view = inflater.inflate(R.layout.fragment_news_list, null);
         assert view != null;
         ListView listView = (ListView) view.findViewById(android.R.id.list);
@@ -164,7 +169,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
     public void refresh() {
         if (isFirstPage) {
             new OriginalGetNewsTask().execute();
-        } else{
+        } else {
             if (getActivity() != null) {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -309,7 +314,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
             isRefreshed = true;
         }
 
-        protected void warning() {
+        protected void warning(Exception e) {
             if (isAdded() && getActivity() != null) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -317,8 +322,14 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                         Crouton.makeText(getActivity(),
                                 getActivity().getString(R.string.network_error),
                                 Style.ALERT).show();
+
                     }
                 });
+
+                Crashlytics.log(
+                        Log.ERROR,
+                        "Error from Warning",
+                        Arrays.toString(e.getStackTrace()));
             }
         }
     }
@@ -336,16 +347,22 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                     checkDate(getActivity(), contents.getString("date"));
                 }
 
-                JSONArray newsArray = contents.getJSONArray("news");
+                JSONArray newsArray = contents.getJSONArray("stories");
                 for (int i = 0; i < newsArray.length(); i++) {
                     JSONObject singleNews = newsArray.getJSONObject(i);
 
                     DailyNews dailyNews = new DailyNews();
-                    dailyNews.setThumbnailUrl(singleNews.getString("thumbnail"));
+                    String thumbnailUrl
+                            = singleNews.has("images")
+                            ? (String) singleNews.getJSONArray("images").get(0)
+                            : null;
+                    dailyNews.setThumbnailUrl(thumbnailUrl);
                     dailyNews.setDailyTitle(singleNews.getString("title"));
 
                     if (!newsList.contains(dailyNews)) {
-                        String dailyInfoJson = NetworkUtils.downloadStringFromUrl(singleNews.getString("url"));
+                        String dailyInfoJson = NetworkUtils.
+                                downloadStringFromUrl(URLUtils.ZHIHU_DAILY_OFFLINE_NEWS_URL
+                                        + singleNews.getString("id"));
                         JSONObject dailyInfoJsonObject = new JSONObject(dailyInfoJson);
                         String htmlBody = dailyInfoJsonObject.getString("body");
                         Document doc = Jsoup.parse(htmlBody);
@@ -353,6 +370,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
                         if (!viewMoreElements.isEmpty()) {
                             isTheSameContent = false;
+                            boolean shouldPublish = true;
                             //This is multi-stories mode
                             if (viewMoreElements.size() > 1) {
                                 dailyNews.setMulti(true);
@@ -365,17 +383,33 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                                     } else {
                                         dailyNews.addQuestionTitle(questionTitleElements.get(j).text());
                                     }
-                                    dailyNews.addQuestionUrl(viewMoreElements.get(j).
-                                            select("a").attr("href"));
+
+                                    Elements viewQuestionElement = viewMoreElements.get(j).
+                                            select("a");
+
+                                    if (viewQuestionElement.text().equals("查看知乎讨论")) {
+                                        dailyNews.addQuestionUrl(viewQuestionElement.attr("href"));
+                                    } else {
+                                        shouldPublish = false;
+                                        break;
+                                    }
                                 }
-                                publishProgress(dailyNews);
+                                if (shouldPublish) {
+                                    publishProgress(dailyNews);
+                                }
                                 continue;
                             }
 
                             //This is single-story mode
                             dailyNews.setMulti(false);
-                            dailyNews.setQuestionUrl(doc.getElementsByClass("view-more").
-                                    select("a").attr("href"));
+
+                            Elements viewQuestionElement = doc.getElementsByClass("view-more").
+                                    select("a");
+                            if (viewQuestionElement.text().equals("查看知乎讨论")) {
+                                dailyNews.setQuestionUrl(viewQuestionElement.attr("href"));
+                            } else {
+                                shouldPublish = false;
+                            }
 
                             //Question title is the same with daily title
                             if (doc.getElementsByClass("question-title").text().length() == 0) {
@@ -384,16 +418,19 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                                 dailyNews.setQuestionTitle(doc.
                                         getElementsByClass("question-title").text());
                             }
-                            publishProgress(dailyNews);
+
+                            if (shouldPublish) {
+                                publishProgress(dailyNews);
+                            }
                         }
                     }
                 }
             } catch (JSONException e) {
                 isRefreshSuccess = false;
-                warning();
+                warning(e);
             } catch (IOException e) {
                 isRefreshSuccess = false;
-                warning();
+                warning(e);
             }
 
             return null;
@@ -454,7 +491,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                 }
             } catch (IOException e) {
                 isRefreshSuccess = false;
-                warning();
+                warning(e);
                 return null;
             }
 
@@ -467,11 +504,11 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                             fromJson(newsListJSON, listType);
                 } catch (JsonSyntaxException e) {
                     isRefreshSuccess = false;
-                    warning();
+                    warning(e);
                 }
             } else {
                 isRefreshSuccess = false;
-                warning();
+                warning(new IOException("Nothing from web"));
             }
             return null;
         }
