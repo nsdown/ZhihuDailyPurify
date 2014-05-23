@@ -20,6 +20,9 @@ Then find the apk under `ZhihuDailyPurify/build/apk`
 编译好的 apk 文件在 `ZhihuDailyPurify/build/apk` 路径下
 
 
+### API Reference - API 分析
+[APIs](https://github.com/izzyleung/ZhihuDailyPurify/wiki)
+
 ### License - 许可证
     Copyright [2014] [Izzy Leung]
 
