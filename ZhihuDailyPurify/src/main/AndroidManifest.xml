@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-                android:name=".ui.activity.BrowseSpecificDateActivity"
+                android:name=".ui.activity.PortalActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:alwaysRetainTaskState="true">
         </activity>

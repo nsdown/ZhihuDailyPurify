@@ -79,7 +79,7 @@ public class PickDateActivity extends ActionBarActivity {
                                 format(pickedDate.getTime());
 
                         Intent intent = new Intent();
-                        intent.setClass(PickDateActivity.this, BrowseSpecificDateActivity.class);
+                        intent.setClass(PickDateActivity.this, PortalActivity.class);
                         intent.putExtra("date", date);
                         intent.putExtra("display_date", displayDate);
                         startActivity(intent);

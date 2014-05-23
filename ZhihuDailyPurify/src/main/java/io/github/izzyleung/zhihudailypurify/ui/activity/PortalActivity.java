@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class BrowseSpecificDateActivity extends ActionBarActivity {
+public class PortalActivity extends ActionBarActivity {
     private String displayDate, dateForFragment;
     private Calendar calendar = Calendar.getInstance();
     private Fragment displayFragment;
@@ -100,7 +100,7 @@ public class BrowseSpecificDateActivity extends ActionBarActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra("date", DateUtils.simpleDateFormat.format(calendar.getTime()));
-        intent.setClass(BrowseSpecificDateActivity.this, PickDateActivity.class);
+        intent.setClass(PortalActivity.this, PickDateActivity.class);
         startActivity(intent);
         this.finish();
     }

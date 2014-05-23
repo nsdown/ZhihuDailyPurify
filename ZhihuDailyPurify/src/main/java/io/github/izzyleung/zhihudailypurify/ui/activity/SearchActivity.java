@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.TextUtils;
@@ -21,11 +22,10 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import io.github.izzyleung.zhihudailypurify.R;
 import io.github.izzyleung.zhihudailypurify.adapter.NewsAdapter;
 import io.github.izzyleung.zhihudailypurify.bean.DailyNews;
-import io.github.izzyleung.zhihudailypurify.support.lib.MyAsyncTask;
 import io.github.izzyleung.zhihudailypurify.support.util.CommonUtils;
 import io.github.izzyleung.zhihudailypurify.support.util.DateUtils;
-import io.github.izzyleung.zhihudailypurify.support.util.NetworkUtils;
 import io.github.izzyleung.zhihudailypurify.support.util.URLUtils;
+import io.github.izzyleung.zhihudailypurify.task.BaseDownloadTask;
 import io.github.izzyleung.zhihudailypurify.ui.view.IzzySearchView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,14 +118,14 @@ public class SearchActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    class SearchTask extends MyAsyncTask<String, Void, Void> {
+    class SearchTask extends BaseDownloadTask<String, Void, Void> {
         private boolean isSearchSuccess = true;
         private boolean isResultNull = false;
 
@@ -158,7 +158,7 @@ public class SearchActivity extends ActionBarActivity {
             String result;
             try {
                 result = Html.fromHtml(Html.fromHtml(
-                        NetworkUtils.downloadStringFromUrl(
+                        downloadStringFromUrl(
                                 URLUtils.SEARCH_URL + params[0])).toString()).toString();
                 if (!TextUtils.isEmpty(result) && !isCancelled()) {
                     JSONArray resultArray = new JSONArray(result);

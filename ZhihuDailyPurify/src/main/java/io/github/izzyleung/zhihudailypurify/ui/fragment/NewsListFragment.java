@@ -2,7 +2,6 @@ package io.github.izzyleung.zhihudailypurify.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -27,11 +25,12 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import io.github.izzyleung.zhihudailypurify.R;
 import io.github.izzyleung.zhihudailypurify.adapter.NewsAdapter;
+import io.github.izzyleung.zhihudailypurify.application.ZhihuDailyPurifyApplication;
 import io.github.izzyleung.zhihudailypurify.bean.DailyNews;
 import io.github.izzyleung.zhihudailypurify.support.lib.MyAsyncTask;
 import io.github.izzyleung.zhihudailypurify.support.util.CommonUtils;
-import io.github.izzyleung.zhihudailypurify.support.util.NetworkUtils;
 import io.github.izzyleung.zhihudailypurify.support.util.URLUtils;
+import io.github.izzyleung.zhihudailypurify.task.BaseDownloadTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +41,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLa
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-import java.io.*;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +107,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         super.onStart();
 
         if (!isRecovered) {
-            new FileToAdapterTask().
+            new RecoverNewsListTask().
                     executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -133,19 +132,19 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Crouton.cancelAllCroutons();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             if (isAutoRefresh && !isRefreshed) {
                 refresh();
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        Crouton.cancelAllCroutons();
     }
 
     @Override
@@ -187,7 +186,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         }
     }
 
-    final class FileToAdapterTask extends MyAsyncTask<Void, Void, Void> {
+    final class RecoverNewsListTask extends MyAsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -205,54 +204,16 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         }
 
         private void fileToBeans() {
-            if (NewsListFragment.this.isAdded()) {
-                if (getActivity() != null) {
-                    File file;
-                    try {
-                        file = new File(getActivity().getFilesDir(), date);
-                    } catch (NullPointerException e) {
-                        return;
-                    }
-
-                    FileInputStream fis;
-                    BufferedReader reader;
-                    String line;
-
-                    Type listType = new TypeToken<List<DailyNews>>() {
-
-                    }.getType();
-
-                    Gson gson = new GsonBuilder().create();
-                    StringBuilder sb = new StringBuilder();
-                    String beanListToJson;
-
-                    try {
-                        if (file.exists()) {
-                            if (getActivity() != null) {
-                                fis = getActivity().openFileInput(date);
-
-                                reader = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line).append("\n");
-                                }
-
-                                beanListToJson = sb.toString();
-                                newsList = gson.
-                                        fromJson(beanListToJson, listType);
-                                reader.close();
-                                fis.close();
-                                isCached = true;
-                            }
-                        }
-                    } catch (IOException ignored) {
-
-                    }
-                }
+            List<DailyNews> result = ZhihuDailyPurifyApplication
+                    .getInstance().getDataSource().getDailyNewsList(date);
+            if (result != null) {
+                isCached = true;
+                newsList = result;
             }
         }
     }
 
-    final class ListToFileTask extends MyAsyncTask<Void, Void, Void> {
+    final class SaveNewsListTask extends MyAsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -261,41 +222,18 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         }
 
         private void beansToFile(List<DailyNews> newsList) {
-            if (NewsListFragment.this.isAdded()) {
-                if (getActivity() != null) {
-                    Type listType = new TypeToken<List<DailyNews>>() {
+            Type listType = new TypeToken<List<DailyNews>>() {
 
-                    }.getType();
+            }.getType();
 
-                    String beanListToJson = new GsonBuilder().create().toJson(newsList, listType);
-
-                    //File name is the date
-                    if (getActivity() != null) {
-                        File file = new File(getActivity().getFilesDir(), date);
-                        FileOutputStream fout;
-
-                        if (file.exists()) {
-                            //noinspection ResultOfMethodCallIgnored
-                            file.delete();
-                        }
-
-                        if (getActivity() != null) {
-                            try {
-                                fout = getActivity().openFileOutput(date, Context.MODE_PRIVATE);
-                                fout.write(beanListToJson.getBytes());
-                                fout.flush();
-                                fout.close();
-                            } catch (IOException ignored) {
-
-                            }
-                        }
-                    }
-                }
-            }
+            String beanListToJson = new GsonBuilder()
+                    .create().toJson(newsList, listType);
+            ZhihuDailyPurifyApplication.getInstance().
+                    getDataSource().createDailyNewsList(date, beanListToJson);
         }
     }
 
-    private abstract class BaseGetNewsTask<Params, Progress, Result> extends MyAsyncTask<Params, Progress, Result> {
+    private abstract class BaseGetNewsTask<Params, Progress, Result> extends BaseDownloadTask<Params, Progress, Result> {
         protected boolean isRefreshSuccess = true;
         protected boolean isTheSameContent = true;
 
@@ -307,7 +245,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         @Override
         protected void onPostExecute(Result result) {
             if (isRefreshSuccess && !isTheSameContent) {
-                new ListToFileTask().execute();
+                new SaveNewsListTask().execute();
             }
 
             mPullToRefreshLayout.setRefreshComplete();
@@ -341,7 +279,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         protected Void doInBackground(Void... voids) {
             try {
                 JSONObject contents = new JSONObject(
-                        NetworkUtils.downloadStringFromUrl(URLUtils.ZHIHU_DAILY_BEFORE_URL + date));
+                        downloadStringFromUrl(URLUtils.ZHIHU_DAILY_BEFORE_URL + date));
 
                 if (isFirstPage) {
                     checkDate(getActivity(), contents.getString("date"));
@@ -360,7 +298,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                     dailyNews.setDailyTitle(singleNews.getString("title"));
 
                     if (!newsList.contains(dailyNews)) {
-                        String dailyInfoJson = NetworkUtils.
+                        String dailyInfoJson =
                                 downloadStringFromUrl(URLUtils.ZHIHU_DAILY_OFFLINE_NEWS_URL
                                         + singleNews.getString("id"));
                         JSONObject dailyInfoJsonObject = new JSONObject(dailyInfoJson);
@@ -483,10 +421,10 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
             String jsonFromWeb;
             try {
                 if (type == 1) {
-                    jsonFromWeb = NetworkUtils.downloadStringFromUrl(URLUtils.
+                    jsonFromWeb = downloadStringFromUrl(URLUtils.
                             ZHIHU_DAILY_PURIFY_SAE_BEFORE_URL + date);
                 } else {
-                    jsonFromWeb = NetworkUtils.downloadStringFromUrl(URLUtils.
+                    jsonFromWeb = downloadStringFromUrl(URLUtils.
                             ZHIHU_DAILY_PURIFY_HEROKU_BEFORE_URL + date);
                 }
             } catch (IOException e) {

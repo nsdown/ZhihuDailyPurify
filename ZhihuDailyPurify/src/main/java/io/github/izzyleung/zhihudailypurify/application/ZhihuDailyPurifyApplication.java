@@ -7,16 +7,22 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import io.github.izzyleung.zhihudailypurify.bean.DailyNewsDataSource;
 
 public class ZhihuDailyPurifyApplication extends Application {
+    private static ZhihuDailyPurifyApplication applicationContext;
+    private DailyNewsDataSource dataSource;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Crashlytics.start(this);
+        applicationContext = this;
 
+        Crashlytics.start(this);
         initImageLoader(getApplicationContext());
+        dataSource = new DailyNewsDataSource(getApplicationContext());
+        dataSource.open();
     }
 
     public static void initImageLoader(Context context) {
@@ -28,5 +34,13 @@ public class ZhihuDailyPurifyApplication extends Application {
                 .build();
 
         ImageLoader.getInstance().init(config);
+    }
+
+    public static ZhihuDailyPurifyApplication getInstance() {
+        return applicationContext;
+    }
+
+    public DailyNewsDataSource getDataSource() {
+        return dataSource;
     }
 }

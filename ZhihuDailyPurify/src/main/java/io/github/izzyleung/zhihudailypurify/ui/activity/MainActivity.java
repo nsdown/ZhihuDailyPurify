@@ -65,51 +65,7 @@ public class MainActivity extends ActionBarActivity {
                 getDefaultSharedPreferences(MainActivity.this);
         boolean isShowShowcase = pref.getBoolean("show_showcase?", true);
         if (isShowShowcase) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                mainFrame.setAlpha(0.1f);
-            }
-
-            ShowcaseView.ConfigOptions options = new ShowcaseView.ConfigOptions();
-            options.hideOnClickOutside = true;
-
-            ShowcaseViews showcaseViews = new ShowcaseViews(this, new ShowcaseViews.
-                    OnShowcaseAcknowledged() {
-                @Override
-                public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        mainFrame.setAlpha(1.0f);
-                    }
-
-                    NewsListFragment firstPage = adapter.getFirstPage();
-                    if (firstPage != null) {
-                        adapter.getFirstPage().refresh();
-                    }
-                }
-            });
-
-            showcaseViews.addView(new ShowcaseViews.ItemViewProperties(
-                    R.id.action_go_to_search,
-                    R.string.showcase_search_title,
-                    R.string.showcase_search_message,
-                    ShowcaseView.ITEM_ACTION_ITEM,
-                    0.5f,
-                    options
-            ));
-
-            showcaseViews.addView(new ShowcaseViews.ItemViewProperties(
-                    R.id.action_pick_date,
-                    R.string.showcase_calendar_title,
-                    R.string.showcase_calendar_message,
-                    ShowcaseView.ITEM_ACTION_ITEM,
-                    0.5f,
-                    options
-            ));
-
-            showcaseViews.show();
-
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("show_showcase?", false);
-            editor.commit();
+            showCase(pref);
         }
 
         return true;
@@ -138,6 +94,54 @@ public class MainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showCase(SharedPreferences pref) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mainFrame.setAlpha(0.1f);
+        }
+
+        ShowcaseView.ConfigOptions options = new ShowcaseView.ConfigOptions();
+        options.hideOnClickOutside = false;
+
+        ShowcaseViews showcaseViews = new ShowcaseViews(this, new ShowcaseViews.
+                OnShowcaseAcknowledged() {
+            @Override
+            public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    mainFrame.setAlpha(1.0f);
+                }
+
+                NewsListFragment firstPage = adapter.getFirstPage();
+                if (firstPage != null) {
+                    adapter.getFirstPage().refresh();
+                }
+            }
+        });
+
+        showcaseViews.addView(new ShowcaseViews.ItemViewProperties(
+                R.id.action_go_to_search,
+                R.string.showcase_search_title,
+                R.string.showcase_search_message,
+                ShowcaseView.ITEM_ACTION_ITEM,
+                0.5f,
+                options
+        ));
+
+        showcaseViews.addView(new ShowcaseViews.ItemViewProperties(
+                R.id.action_pick_date,
+                R.string.showcase_calendar_title,
+                R.string.showcase_calendar_message,
+                ShowcaseView.ITEM_ACTION_ITEM,
+                0.5f,
+                options
+        ));
+
+        showcaseViews.show();
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("show_showcase?", false);
+        editor.commit();
     }
 
     final class MainPagerAdapter extends FragmentStatePagerAdapter {
@@ -177,14 +181,14 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            if (position == 0 && isGetFirstPage) {
+            if (position == 0 && isGetFirstPage && firstPage != null) {
                 firstPage.clear();
             }
             super.destroyItem(container, position, object);
         }
 
         public NewsListFragment getFirstPage() {
-            return firstPage.get();
+            return firstPage == null ? null : firstPage.get();
         }
 
         @Override

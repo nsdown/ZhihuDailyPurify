@@ -64,7 +64,7 @@ public final class NewsAdapter extends BaseAdapter implements StickyListHeadersA
 
     @Override
     public int getCount() {
-        return newsList.size();
+        return newsList == null ? 0 : newsList.size();
     }
 
     @Override

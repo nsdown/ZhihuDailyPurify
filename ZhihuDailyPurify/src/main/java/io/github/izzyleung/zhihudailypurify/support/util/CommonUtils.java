@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import io.github.izzyleung.zhihudailypurify.R;
+import io.github.izzyleung.zhihudailypurify.application.ZhihuDailyPurifyApplication;
 import io.github.izzyleung.zhihudailypurify.bean.DailyNews;
 import taobe.tec.jcc.JChineseConvertor;
 
@@ -49,23 +50,21 @@ public final class CommonUtils {
 
             new AlertDialog.Builder(context).
                     setItems(questionTitles, new DialogInterface.OnClickListener() {
-
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            goToZhihu(context,
-                                    dailyNews.getQuestionUrlList().get(which));
+                            goToZhihu(context, dailyNews.getQuestionUrlList().get(which));
                         }
                     }).show();
         } else {
             //Or, just go to Zhihu
-            goToZhihu(context,
-                    dailyNews.getQuestionUrl());
+            goToZhihu(context, dailyNews.getQuestionUrl());
         }
     }
 
     public static void goToZhihu(Context context, String url) {
-        boolean isUsingClient = PreferenceManager.
-                getDefaultSharedPreferences(context).getBoolean("using_client?", false);
+        boolean isUsingClient = PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getBoolean("using_client?", false);
 
         if (!isUsingClient) {
             openUsingBrowser(context, url);
@@ -86,7 +85,10 @@ public final class CommonUtils {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             context.startActivity(browserIntent);
         } catch (ActivityNotFoundException ane) {
-            Toast.makeText(context, context.getResources().getString(R.string.no_browser), Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    ZhihuDailyPurifyApplication.getInstance(),
+                    ZhihuDailyPurifyApplication.getInstance().getResources().getString(R.string.no_browser),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }
