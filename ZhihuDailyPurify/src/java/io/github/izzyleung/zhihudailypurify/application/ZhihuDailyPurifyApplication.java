@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import io.github.izzyleung.zhihudailypurify.bean.DailyNewsDataSource;
 
-public class ZhihuDailyPurifyApplication extends Application {
+public final class ZhihuDailyPurifyApplication extends Application {
     private static ZhihuDailyPurifyApplication applicationContext;
     private DailyNewsDataSource dataSource;
 

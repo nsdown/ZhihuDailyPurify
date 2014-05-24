@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
+public final class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "daily_news_lists";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_DATE = "date";

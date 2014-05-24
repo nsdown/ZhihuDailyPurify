@@ -302,76 +302,22 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
                     JSONObject singleNews = newsArray.getJSONObject(i);
 
                     DailyNews dailyNews = new DailyNews();
-                    String thumbnailUrl
-                            = singleNews.has("images")
+                    dailyNews.setThumbnailUrl(singleNews.has("images")
                             ? (String) singleNews.getJSONArray("images").get(0)
-                            : null;
-                    dailyNews.setThumbnailUrl(thumbnailUrl);
+                            : null);
                     dailyNews.setDailyTitle(singleNews.getString("title"));
 
                     if (!newsList.contains(dailyNews)) {
-                        String dailyInfoJson =
+                        String newsInfoJson =
                                 downloadStringFromUrl(URLUtils.ZHIHU_DAILY_OFFLINE_NEWS_URL
                                         + singleNews.getString("id"));
-                        JSONObject dailyInfoJsonObject = new JSONObject(dailyInfoJson);
-                        String htmlBody = dailyInfoJsonObject.getString("body");
-                        Document doc = Jsoup.parse(htmlBody);
-                        Elements viewMoreElements = doc.getElementsByClass("view-more");
+                        Document doc = Jsoup.parse(new JSONObject(newsInfoJson).getString("body"));
 
-                        if (!viewMoreElements.isEmpty()) {
-                            isTheSameContent = false;
-                            boolean shouldPublish = true;
-                            //This is multi-stories mode
-                            if (viewMoreElements.size() > 1) {
-                                dailyNews.setMulti(true);
-                                Elements questionTitleElements =
-                                        doc.getElementsByClass("question-title");
+                        isTheSameContent = false;
+                        boolean shouldPublish = updateDailyNews(doc, singleNews.getString("title"), dailyNews);
 
-                                for (int j = 0; j < viewMoreElements.size(); j++) {
-                                    if (questionTitleElements.get(j).text().length() == 0) {
-                                        dailyNews.addQuestionTitle(singleNews.getString("title"));
-                                    } else {
-                                        dailyNews.addQuestionTitle(questionTitleElements.get(j).text());
-                                    }
-
-                                    Elements viewQuestionElement = viewMoreElements.get(j).
-                                            select("a");
-
-                                    if (viewQuestionElement.text().equals("查看知乎讨论")) {
-                                        dailyNews.addQuestionUrl(viewQuestionElement.attr("href"));
-                                    } else {
-                                        shouldPublish = false;
-                                        break;
-                                    }
-                                }
-                                if (shouldPublish) {
-                                    publishProgress(dailyNews);
-                                }
-                                continue;
-                            }
-
-                            //This is single-story mode
-                            dailyNews.setMulti(false);
-
-                            Elements viewQuestionElement = doc.getElementsByClass("view-more").
-                                    select("a");
-                            if (viewQuestionElement.text().equals("查看知乎讨论")) {
-                                dailyNews.setQuestionUrl(viewQuestionElement.attr("href"));
-                            } else {
-                                shouldPublish = false;
-                            }
-
-                            //Question title is the same with daily title
-                            if (doc.getElementsByClass("question-title").text().length() == 0) {
-                                dailyNews.setQuestionTitle(singleNews.getString("title"));
-                            } else {
-                                dailyNews.setQuestionTitle(doc.
-                                        getElementsByClass("question-title").text());
-                            }
-
-                            if (shouldPublish) {
-                                publishProgress(dailyNews);
-                            }
+                        if (shouldPublish) {
+                            publishProgress(dailyNews);
                         }
                     }
                 }
@@ -416,6 +362,57 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
                 sharedPreferences.edit().putString("date", dateString).commit();
             }
+        }
+
+        private boolean updateDailyNews(
+                Document doc,
+                String dailyTitle,
+                DailyNews dailyNews) throws JSONException {
+            Elements viewMoreElements = doc.getElementsByClass("view-more");
+
+            if (viewMoreElements.size() > 1) {
+                dailyNews.setMulti(true);
+                Elements questionTitleElements =
+                        doc.getElementsByClass("question-title");
+
+                for (int j = 0; j < viewMoreElements.size(); j++) {
+                    if (questionTitleElements.get(j).text().length() == 0) {
+                        dailyNews.addQuestionTitle(dailyTitle);
+                    } else {
+                        dailyNews.addQuestionTitle(questionTitleElements.get(j).text());
+                    }
+
+                    Elements viewQuestionElement = viewMoreElements.get(j).
+                            select("a");
+
+                    if (viewQuestionElement.text().equals("查看知乎讨论")) {
+                        dailyNews.addQuestionUrl(viewQuestionElement.attr("href"));
+                    } else {
+                        return false;
+                    }
+                }
+            } else if (viewMoreElements.size() == 1) {
+                dailyNews.setMulti(false);
+
+                Elements viewQuestionElement = viewMoreElements.select("a");
+                if (viewQuestionElement.text().equals("查看知乎讨论")) {
+                    dailyNews.setQuestionUrl(viewQuestionElement.attr("href"));
+                } else {
+                    return false;
+                }
+
+                //Question title is the same with daily title
+                if (doc.getElementsByClass("question-title").text().length() == 0) {
+                    dailyNews.setQuestionTitle(dailyTitle);
+                } else {
+                    dailyNews.setQuestionTitle(doc.
+                            getElementsByClass("question-title").text());
+                }
+            } else {
+                return false;
+            }
+
+            return true;
         }
     }
 
@@ -479,5 +476,5 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
     }
 
-    private enum SERVERS { SAE, HEROKU }
+    private enum SERVERS {SAE, HEROKU}
 }

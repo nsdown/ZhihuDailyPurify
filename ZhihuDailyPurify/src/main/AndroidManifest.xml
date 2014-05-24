@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
-        package="io.github.izzyleung.zhihudailypurify"
-        android:versionCode="15"
-        android:versionName="1.15">
-
-    <uses-sdk
-            android:minSdkVersion="8"
-            android:targetSdkVersion="19"/>
+        package="io.github.izzyleung.zhihudailypurify">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

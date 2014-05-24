@@ -127,6 +127,11 @@ public final class NewsAdapter extends BaseAdapter implements StickyListHeadersA
     }
 
     @Override
+    public long getHeaderId(int position) {
+        return dateResultList.get(position).hashCode();
+    }
+
+    @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
         HeaderViewHolder holder;
         if (convertView == null) {
@@ -145,11 +150,6 @@ public final class NewsAdapter extends BaseAdapter implements StickyListHeadersA
 
         holder.headerTitle.setText(dateResultList.get(position));
         return convertView;
-    }
-
-    @Override
-    public long getHeaderId(int position) {
-        return dateResultList.get(position).hashCode();
     }
 
     private final static class CardViewHolder {

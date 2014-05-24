@@ -14,7 +14,7 @@ import io.github.izzyleung.zhihudailypurify.db.DBHelper;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class DailyNewsDataSource {
+public final class DailyNewsDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = {
