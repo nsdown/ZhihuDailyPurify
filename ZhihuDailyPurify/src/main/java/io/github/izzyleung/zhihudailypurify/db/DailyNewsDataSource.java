@@ -1,4 +1,4 @@
-package io.github.izzyleung.zhihudailypurify.bean;
+package io.github.izzyleung.zhihudailypurify.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import io.github.izzyleung.zhihudailypurify.bean.DailyNews;
 import io.github.izzyleung.zhihudailypurify.db.DBHelper;
 
 import java.lang.reflect.Type;
