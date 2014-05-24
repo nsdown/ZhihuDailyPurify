@@ -52,6 +52,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
     private boolean isAutoRefresh;
     private boolean isFirstPage;
+
     // Fragment is single in PortalActivity
     private boolean isSingle;
     private boolean isRefreshed = false;
@@ -133,19 +134,19 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        Crouton.cancelAllCroutons();
-    }
-
-    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             if (isAutoRefresh && !isRefreshed) {
                 refresh();
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Crouton.cancelAllCroutons();
     }
 
     @Override
@@ -176,9 +177,9 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
                 if (sharedPreferences.getBoolean("using_accelerate_server?", false)) {
                     if (Integer.parseInt(sharedPreferences.getString("which_accelerate_server", "1")) == 1) {
-                        new AccelerateGetNewsTask().execute(1);
+                        new AccelerateGetNewsTask().execute(SERVERS.SAE);
                     } else {
-                        new AccelerateGetNewsTask().execute(2);
+                        new AccelerateGetNewsTask().execute(SERVERS.HEROKU);
                     }
                 } else {
                     new OriginalGetNewsTask().execute();
@@ -418,20 +419,18 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
         }
     }
 
-    private class AccelerateGetNewsTask extends BaseGetNewsTask<Integer, DailyNews, Void> {
+    private class AccelerateGetNewsTask extends BaseGetNewsTask<SERVERS, DailyNews, Void> {
         private List<DailyNews> tempNewsList;
 
         @Override
-        protected Void doInBackground(Integer... integers) {
-            int type = integers[0];
-
+        protected Void doInBackground(SERVERS... serverTypes) {
             Type listType = new TypeToken<List<DailyNews>>() {
 
             }.getType();
 
             String jsonFromWeb;
             try {
-                if (type == 1) {
+                if (serverTypes[0] == SERVERS.SAE) {
                     jsonFromWeb = downloadStringFromUrl(URLUtils.
                             ZHIHU_DAILY_PURIFY_SAE_BEFORE_URL + date);
                 } else {
@@ -477,5 +476,8 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
 
             super.onPostExecute(aVoid);
         }
+
     }
+
+    private enum SERVERS { SAE, HEROKU }
 }

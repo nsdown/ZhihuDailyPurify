@@ -8,3 +8,4 @@ ZhihuDailyAPI.md
 *.iml
 ZhihuDailyPurify/src/main/res/values/com_crashlytics_export_strings.xml
 local.properties
+ZhihuDailyPurify/crashlytics.properties
