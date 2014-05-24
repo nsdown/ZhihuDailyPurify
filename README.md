@@ -23,7 +23,7 @@ Then find the apk under `ZhihuDailyPurify/build/apk`
 ### API Reference - API 分析
 [APIs](https://github.com/izzyleung/ZhihuDailyPurify/wiki)
 
-### Bug Report - Bug 反馈
+### Contact - 联系
 `echo aXp6eWxpYW5nQGdtYWlsLmNvbQo= | base64 -d`
 
 ### License - 许可证
