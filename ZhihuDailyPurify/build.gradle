@@ -44,6 +44,7 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
     compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.github.chrisbanes.actionbarpulltorefresh:extra-abc:0.9.9'
+    compile 'com.squareup.okhttp:okhttp:2.0.0-RC1'
     compile project(':ShowCaseViewLibrary')
     compile files('src/main/libs/jcc-bate-0.7.3.jar')
 }
