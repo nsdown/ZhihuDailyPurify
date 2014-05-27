@@ -48,8 +48,9 @@ public final class CommonUtils {
                 }
             }
 
-            new AlertDialog.Builder(context).
-                    setItems(questionTitles, new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(context)
+                    .setTitle(dailyNews.getDailyTitle())
+                    .setItems(questionTitles, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             goToZhihu(context, dailyNews.getQuestionUrlList().get(which));

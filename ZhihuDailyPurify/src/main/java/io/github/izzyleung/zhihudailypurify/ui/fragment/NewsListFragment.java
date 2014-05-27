@@ -80,8 +80,7 @@ public class NewsListFragment extends ListFragment implements OnRefreshListener 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         @SuppressLint("InflateParams")
         View view = inflater.inflate(R.layout.fragment_news_list, null);
         assert view != null;
